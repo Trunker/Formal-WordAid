@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Word Memorization Aid</string>
+    <string name="words">Words</string>
+    <string name="test">Test</string>
+    <string name="pronunciation">Pronunciation</string>
+    <string name="add">add</string>
+</resources>
