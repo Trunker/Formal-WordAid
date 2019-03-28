@@ -13,7 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".addNewsItems"></activity>
+        <activity android:name=".WordMemorizeViewPager"></activity>
+        <activity
+            android:name=".WordMemorizeActivity"
+            android:label="@string/title_activity_word_memorize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".addWordItemActivity" />
+        <activity
+            android:name=".wordListActivity"
+            android:label="@string/title_activity_word_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DictionaryWebView" />
+        <activity
+            android:name=".NewsListItemsWebView"
+            android:label="@string/title_activity_news_list_items_web_view"
+            android:parentActivityName=".NewsListEditActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dev.goodjob.wordmemorizationaid.NewsListEditActivity" />
+        </activity>
+        <activity android:name=".addNewsItems" />
         <activity android:name=".NewsListEditActivity" />
         <activity
             android:name=".YoutubeActivity"

@@ -4,4 +4,10 @@
     <string name="test">Test</string>
     <string name="pronunciation">Pronunciation</string>
     <string name="add">add</string>
+    <string name="title_activity_news_list_items_web_view">NewsListItemsWebView</string>
+    <string name="title_activity_word_list">wordListActivity</string>
+    <string name="title_activity_word_memorize">WordMemorizeActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -15,12 +15,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btnTempTest = (Button) findViewById(R.id.btnTempTest);
         Button btnPron = (Button) findViewById(R.id.btnPron);
-//        Button btnWdEmt = (Button)findViewById((R.id.btnNLE));
         Button btnNLE = (Button)findViewById(R.id.btnNLE);
+        Button btnNLW = (Button)findViewById(R.id.btnNLW);
         btnTempTest.setOnClickListener(this);
         btnPron.setOnClickListener(this);
-//        btnWdEmt.setOnClickListener(this);
         btnNLE.setOnClickListener(this);
+        btnNLW.setOnClickListener(this);
     }
 
     @Override
@@ -40,12 +40,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnNLE:
                 intent = new Intent(this, NewsListEditActivity.class);
                 break;
+
+            case R.id.btnNLW:
+                intent = new Intent(this, WordMemorizeActivity.class);
+                break;
             default:
         }
         if(intent != null){
             startActivity(intent);
         }
-
-
     }
 }
