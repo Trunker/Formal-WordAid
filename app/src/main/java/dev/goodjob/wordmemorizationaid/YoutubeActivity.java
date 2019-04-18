@@ -27,26 +27,12 @@ public class YoutubeActivity extends YouTubeBaseActivity //change "extends AppCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_youtube);
-//        ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.activity_youtube);
         ConstraintLayout layout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.activity_youtube, null);
         setContentView(layout);
-
-//        Button button1 = new Button(this);
-//        button1.setLayoutParams(new ConstraintLayout.LayoutParams(300, 80)); //set the width and height
-//        button1.setText("Button added");
-//        layout.addView(button1); // to add a button to the layout via code
-
         YouTubePlayerView playerView = new YouTubePlayerView(this);
         playerView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)); //set width and height in dp unit
         layout.addView(playerView);
         playerView.initialize(GOOGLE_API_KEY, this);
-
-
-//        YouTubeThumbnailView youTubeThumbnailView = new YouTubeThumbnailView(this);
-//
-//        youTubeThumbnailView.initialize(GOOGLE_API_KEY, this );
-
     }
 
     @Override
@@ -133,17 +119,17 @@ public class YoutubeActivity extends YouTubeBaseActivity //change "extends AppCo
         private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
             @Override
             public void onPlaying() {
-                Toast.makeText(YoutubeActivity.this, "Good, video is playing ok", Toast.LENGTH_LONG).show();
+//                Toast.makeText(YoutubeActivity.this, "Good, video is playing ok", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onPaused() {
-                Toast.makeText(YoutubeActivity.this, "Good, video is pausing ok", Toast.LENGTH_LONG).show();
+//                Toast.makeText(YoutubeActivity.this, "Good, video is pausing ok", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onStopped() {
-                Toast.makeText(YoutubeActivity.this, "Good, video is stopping ok", Toast.LENGTH_LONG).show();
+//                Toast.makeText(YoutubeActivity.this, "Good, video is stopping ok", Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -1,16 +1,23 @@
 package dev.goodjob.wordmemorizationaid;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,7 +45,7 @@ public class NewsListEditActivity extends AppCompatActivity {
         lvNews = findViewById(R.id.lvnewsListEditAdd);
 
         viewData();
-        Button  btnNewsListItemsAdd= findViewById(R.id.btnNewsListItemsAdd);
+        FloatingActionButton btnNewsListItemsAdd= findViewById(R.id.btnNewsListItemsAdd);
         btnNewsListItemsAdd.setOnClickListener(new View.OnClickListener() {                         //add listener for "add" button
         @Override
             public void onClick(View v) {
@@ -49,26 +56,103 @@ public class NewsListEditActivity extends AppCompatActivity {
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 getUrl(lvNews.getItemAtPosition(position).toString());
                 Intent intent = new Intent(NewsListEditActivity.this, NewsListItemsWebView.class);
                 startActivity(intent);
             }
         });
 
-        lvNews.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                lvNews.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 getUrl(lvNews.getItemAtPosition(position).toString());
-                DatabaseNewsActivity.DB_TABLE = "\""+NewsListEditActivity.clickItemUrl + "\"";
-            Intent intent = new Intent(NewsListEditActivity.this, wordListActivity.class);
-            startActivity(intent);
-                Log.d(TAG, "onItemLongClick: URl is"+ clickItemUrl);
-                return false;
+                final String selectedItem = parent.getItemAtPosition(position).toString();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(NewsListEditActivity.this);
+                builder.setMessage("Do you want to remove " + selectedItem + "?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.remove(selectedItem);
+                        db1.deleteEntry(clickItemUrl);
+
+                        Log.d(TAG, "onItemLongClick: "+ "entry"+ clickItemUrl +"has been deleted from"+db1.DB_TABLE);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(
+                                getApplicationContext(),
+                                selectedItem + " has been removed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Create and show the dialog
+                builder.show();
+
+                // Signal OK to avoid further processing of the long click
+                return true;
         }
         });
 
 
+        //for adding words
+//        lvNews.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                getUrl(lvNews.getItemAtPosition(position).toString());
+//                DatabaseNewsActivity.DB_TABLE = "\""+NewsListEditActivity.clickItemUrl + "\"";
+//            Intent intent = new Intent(NewsListEditActivity.this, wordListActivity.class);
+//            startActivity(intent);
+//                Log.d(TAG, "onItemLongClick: URl is"+ clickItemUrl);
+//                return false;
+//        }
+//        });
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.menuSearch);
+        SearchView searchView = (SearchView)item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.equals("")) {
+                    if (adapter != null) {
+                        adapter.getFilter().filter(newText);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(NewsListEditActivity.this);
+                        builder.setMessage("There is no item");
+                        builder.setCancelable(false);
+                        builder.setNegativeButton("I see", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -115,10 +199,5 @@ public class NewsListEditActivity extends AppCompatActivity {
         }
         cursor.close();
     }
-
-
-
-
-
 }
 

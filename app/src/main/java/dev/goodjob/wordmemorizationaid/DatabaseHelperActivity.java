@@ -51,7 +51,18 @@ public class DatabaseHelperActivity extends SQLiteOpenHelper {
         contentValues.put(Date, date);
         contentValues.put(Url, url);
         long result = db.insert(DB_TABLE, null, contentValues);
+        db.close();
         return result != -1;
+    }
+
+    public boolean deleteEntry(String url){
+        SQLiteDatabase db = this.getWritableDatabase();
+        url= url.replaceAll("\"", "##");
+        url = "\"" + url+ "\"";
+        long result = db.delete(DB_TABLE, Url +"=?", new String[]{url});
+
+        db.close();
+        return result == 1;
     }
 
     public Cursor viewData(){

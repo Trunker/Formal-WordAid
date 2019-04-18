@@ -29,5 +29,4 @@ public class WordDataProvider {
         wordList.clear();
         wordMap.clear();
     }
-
 }

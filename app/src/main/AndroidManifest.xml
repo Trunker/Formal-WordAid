@@ -5,28 +5,49 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label=" Read\u0026Review"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WordMemorizeViewPager"></activity>
+        <activity
+            android:name=".WordsDetailActivity"
+            android:label="@string/title_activity_words_detail"
+            android:parentActivityName=".wordListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dev.goodjob.wordmemorizationaid.wordListActivity" />
+        </activity>
+
+        <service
+            android:name=".FloatingButtonService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".WordMemorizeViewPager"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".WordMemorizeActivity"
-            android:label="@string/title_activity_word_memorize"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Review"
+            android:theme="@style/AppTheme" />
         <activity android:name=".addWordItemActivity" />
         <activity
             android:name=".wordListActivity"
-            android:label="@string/title_activity_word_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DictionaryWebView" />
+            android:label="Wordlist"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DictionaryWebView"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- android:parentActivityName=".NewsListItemsWebView" -->
         <activity
             android:name=".NewsListItemsWebView"
-            android:label="@string/title_activity_news_list_items_web_view"
+            android:label=""
             android:parentActivityName=".NewsListEditActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -34,14 +55,19 @@
                 android:value="dev.goodjob.wordmemorizationaid.NewsListEditActivity" />
         </activity>
         <activity android:name=".addNewsItems" />
-        <activity android:name=".NewsListEditActivity" />
+        <activity android:name=".NewsListEditActivity"
+            android:label="Read"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".YoutubeActivity"
-            android:label="Youtube Player" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StandaloneActivity"
-            android:label="Standalone Activity" />
-        <activity android:name=".MainActivity">
+            android:label="Pronunciation"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

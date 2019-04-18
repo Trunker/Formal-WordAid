@@ -20,39 +20,11 @@ public class StandaloneActivity extends AppCompatActivity implements View.OnClic
 
         btnPlayVideo.setOnClickListener(this); // pass an instance of current object to implete the interface
         btnPlayList.setOnClickListener(this);
-
-//        View.OnClickListener ourListener = new View.OnClickListener() { // assagin the instance of the anonymous to that variable
-//            @Override
-//            public void onClick(View v) {   //to create an anonymous inner class
-//
-//            }
-//        };
-//        btnPlayVideo.setOnClickListener(ourListener);
-//        btnPlayList.setOnClickListener(ourListener);
-
-
-
-//        btnPlayVideo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//
-//        btnPlayList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        }); // to create an instance of an anonymous class and assaign it to a variable directly
-
-
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = null; //intent binds activities together
-
         switch(v.getId()){
             case R.id.btnPlayVideo:
 //                intent = YouTubeStandalonePlayer.createVideoIntent(this, YoutubeActivity.GOOGLE_API_KEY, YoutubeActivity.YOUTUBE_VIDEO_ID_BASIC, 0, true, false);

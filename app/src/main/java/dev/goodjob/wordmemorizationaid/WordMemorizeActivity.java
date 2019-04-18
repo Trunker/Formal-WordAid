@@ -1,22 +1,41 @@
 package dev.goodjob.wordmemorizationaid;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static dev.goodjob.wordmemorizationaid.DatabaseNewsActivity.DB_TABLE;
+import static dev.goodjob.wordmemorizationaid.DatabaseNewsActivity.ExapleSentence;
+import static dev.goodjob.wordmemorizationaid.DatabaseNewsActivity.ID;
+import static dev.goodjob.wordmemorizationaid.DatabaseNewsActivity.PoSProExp;
+import static dev.goodjob.wordmemorizationaid.DatabaseNewsActivity.Word;
+import static dev.goodjob.wordmemorizationaid.NewsListEditActivity.clickItemUrl;
+
 public class WordMemorizeActivity extends AppCompatActivity {
 
+//    public static String wordListActivityOnClickUrl;
+
     private static final String TAG = "WordMemorizeActivity";
+    public String createTableSql = "CREATE TABLE IF NOT EXISTS" + "\""+ clickItemUrl + "\"" + "(" +ID+" INTEGER PRIMARY KEY AUTOINCREMENT," + Word + " TEXT,"
+            + ExapleSentence +" TEXT, "+ PoSProExp + " TEXT);"; // do not put this string static
 
 
     ListView lvWordMemorize;
@@ -24,8 +43,6 @@ public class WordMemorizeActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     DatabaseHelperActivity db = new DatabaseHelperActivity(this);
     DatabaseNewsActivity dbNews = new DatabaseNewsActivity(this);
-    // to create Newslist
-//    DatabaseNewsActivity dbForWordAdd = new DatabaseNewsActivity(this);;//to put data into WordAdder
 
 
     @Override
@@ -33,14 +50,11 @@ public class WordMemorizeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_memorize);
 
+
         alWordMemorize = new ArrayList<String>();
         lvWordMemorize = findViewById(R.id.lvWordMemorize);
 
         viewData();
-
-//        populateWord();
-
-//        dbForWordAdd = new DatabaseNewsActivity(this);
 
 
         FloatingActionButton fab = findViewById(R.id.fabWordMemorize);
@@ -58,6 +72,8 @@ public class WordMemorizeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 getUrl(lvWordMemorize.getItemAtPosition(position).toString());
                 DatabaseNewsActivity.DB_TABLE = "\""+NewsListEditActivity.clickItemUrl + "\"";
+                dynamicallyCreateTable(dbNews,createTableSql);
+                Log.d(TAG, "onItemClick: "+NewsListEditActivity.clickItemUrl);
                 populateWord();
                 Intent intent = new Intent(WordMemorizeActivity.this, WordMemorizeViewPager.class);
                 startActivity(intent);
@@ -79,6 +95,40 @@ public class WordMemorizeActivity extends AppCompatActivity {
 
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.menuSearch);
+        SearchView searchView = (SearchView)item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.equals("")) {
+                    if (adapter != null) {
+                        adapter.getFilter().filter(newText);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WordMemorizeActivity.this);
+                        builder.setMessage("There is no item");
+                        builder.setCancelable(false);
+                        builder.setNegativeButton("I see", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
 
     protected void onRestart() {
         super.onRestart();
@@ -86,7 +136,6 @@ public class WordMemorizeActivity extends AppCompatActivity {
         viewData();
         Toast.makeText(this,"Come on", Toast.LENGTH_SHORT).show();
     }
-
 
     public void viewData(){
         Cursor cursor = db.viewData();
@@ -103,7 +152,6 @@ public class WordMemorizeActivity extends AppCompatActivity {
         }
         cursor.close();
     }
-
 
     public void getUrl(String itemTitle){
         Cursor cursor = db.viewData();
@@ -125,10 +173,7 @@ public class WordMemorizeActivity extends AppCompatActivity {
         cursor.close();
     }
 
-
-
-
-    private void populateWord() {
+    public void populateWord() {
         Cursor cursor = dbNews.viewData();
         WordDataProvider.clear(); // to clear the word arraylist
         if(cursor.getCount()==0){
@@ -145,6 +190,12 @@ public class WordMemorizeActivity extends AppCompatActivity {
         cursor.close();
     }
 
-
-
+    public void  dynamicallyCreateTable(DatabaseNewsActivity db, String sqlInstr){
+        Log.d(TAG, "dynamicallyCreateTable: the sqlInstr is " + sqlInstr);
+        Log.d(TAG, "dynamicallyCreateTable: the clickOnUrl is" + clickItemUrl);
+        SQLiteDatabase dp = db.getWritableDatabase();
+        dp.execSQL(sqlInstr);
+        Log.d(TAG, "dynamicallyCreateTable: Table " +DB_TABLE+" has been instantiated" );
+        dp.close();
+    }
 }

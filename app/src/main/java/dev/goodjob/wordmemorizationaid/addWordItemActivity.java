@@ -42,7 +42,7 @@ public class addWordItemActivity extends AppCompatActivity {
                     tietWordExampleSentence.setText("");
                     tietWordPosProExplanation.setText("");
 //                    wordItemNumer++;
-//                    WordDataProvider.addWord(addWordItemActivity.wordItemNumer.toString(),wordOriginalForm, wordExampleSentence, wordPosExpExplanation);
+//                   WordDataProvider.addWord(addWordItemActivity.wordItemNumer.toString(),wordOriginalForm, wordExampleSentence, wordPosExpExplanation);
                 }else{
                     Toast.makeText(addWordItemActivity.this, "Data unsuccessfully saved, Please retry", Toast.LENGTH_SHORT).show();
                 }

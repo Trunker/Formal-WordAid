@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WordsMemorizeFragment">
+    tools:context=".WordsDetailActivity">
 
-    <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/content_words_detail" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabWordDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@android:color/background_light"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,22 +24,19 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="88dp"
+            android:layout_height="100dp"
             android:background="@color/colorAccent">
 
             <TextView
-                android:id="@+id/tvWMFWordOF"
+                android:id="@+id/tvWordDetailOF"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp"
                 android:background="@color/colorAccent"
-                android:fontFamily="sans-serif-smallcaps"
+                android:layout_alignParentBottom="true"
                 android:textAlignment="center"
+                android:text="xcsdfsadfsda"
                 android:textColor="@android:color/background_light"
-                android:textSize="40sp"
-                android:typeface="serif"
-                tools:text="xcsdfsadfsda" />
+                android:textSize="36sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -39,21 +47,19 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="200dp"
             android:background="@color/colorAccent">
             >
-
             <TextView
-                android:id="@+id/tvWMFWordExamS"
+                android:id="@+id/tvWordDetailExamS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="0dp"
+                android:text="adsfsdfasdf"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light"
-                android:textSize="20sp"
-                android:typeface="sans"
-                tools:text="adsfsdfasdf" />
+                android:textSize="24sp" />
         </RelativeLayout>
 
         <Space
@@ -67,15 +73,14 @@
             >
 
             <TextView
-                android:id="@+id/tvWMFExp"
+                android:id="@+id/tvWordDetailExp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:text="adsfsdfasdf"
+                android:textSize="18sp"
                 android:textAlignment="center"
-                android:textColor="@android:color/background_dark"
-                android:textSize="20sp"
-                android:typeface="sans"
-                tools:text="adsfsdfasdf" />
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/background_dark"/>
         </RelativeLayout>
     </LinearLayout>
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

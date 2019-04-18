@@ -8,18 +8,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class DatabaseNewsActivity extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseNewsActivity";
+    public static ArrayList<Integer> idArrayList = new ArrayList<>();
 
     public static final String DB_NAME = "Words_db";
-    public static String DB_TABLE = "Initial_Table";
+//    public static String Initial_DB_TABLE = "Initial_Table";
+    public static String DB_TABLE = "\""+NewsListEditActivity.clickItemUrl + "\"";
     public static final String ID = "_Id";
+    public static final String IDD = "_Idd";
     public static final String Word = "Word";
     public static final String ExapleSentence = "ExampleSentence";
     public static final String PoSProExp = "PoSProExp";
 
-    public static  String CREATE_TABLE = "CREATE TABLE "+ "\""+NewsListEditActivity.clickItemUrl + "\""+ "(" +ID+" INTEGER PRIMARY KEY AUTOINCREMENT," + Word + " TEXT,"
+    public static  String CREATE_TABLE = "CREATE TABLE "+ "\""+NewsListEditActivity.clickItemUrl + "\""+ "(" +ID+" INTEGER PRIMARY KEY AUTOINCREMENT," + ""+ Word + " TEXT,"
             + ExapleSentence +" TEXT, "+ PoSProExp + " TEXT);";
 
 
@@ -40,7 +45,6 @@ public class DatabaseNewsActivity extends SQLiteOpenHelper {
     }
 
     public boolean insertData(String w, String es, String pspep){
-
         w = w.replaceAll("\"", "##");
         es = es.replaceAll("\"", "##");
         pspep= pspep.replaceAll("\"", "##");
@@ -52,20 +56,43 @@ public class DatabaseNewsActivity extends SQLiteOpenHelper {
         contentValues.put(Word, w);
         contentValues.put(ExapleSentence, es);
         contentValues.put(PoSProExp, pspep);
-//        contentValues.put(Explanation, exp);
         long result = db.insert(DB_TABLE, null, contentValues);
+        db.close();
         return result != -1;
     }
 
     public Cursor viewData(){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "Select * FROM "+ DB_TABLE ;
-
-       Log.d(TAG, "viewData: From"+ DB_TABLE);
-//       try
-
+        Log.d(TAG, "viewData: From"+ DB_TABLE);
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
     }
 
+    public boolean deleteEntry(int id){
+        this.saveID();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String _idd = Integer.toString(idArrayList.get(id));
+        Log.d(TAG, "deleteEntry: The id of this entry is"+_idd);
+        long result = db.delete(DB_TABLE,  "_id=?", new String[]{_idd});
+        Log.d(TAG, "deleteEntry: the status code is: "+ result);
+        Log.d(TAG, "deleteEntry: the current table is "+ DB_TABLE);
+
+        db.close();
+        return result == 1;
+    }
+
+    public void saveID(){                                                                           //for storing the sequence of the autoincremented id
+        String sql = "Select * FROM "+ DB_TABLE ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor != null && cursor.getCount()>0){
+            idArrayList.removeAll(idArrayList);
+            while(cursor.moveToNext()){
+                idArrayList.add(cursor.getInt(0));
+            }
+            cursor.close();
+            db.close();
+        }
+    }
 }

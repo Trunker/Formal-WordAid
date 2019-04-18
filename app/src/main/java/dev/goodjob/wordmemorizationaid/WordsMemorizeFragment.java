@@ -37,10 +37,6 @@ public class WordsMemorizeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
-
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_words_memorize, container, false);
         Bundle args = getArguments();
@@ -58,14 +54,6 @@ public class WordsMemorizeFragment extends Fragment {
         tvWordES = rootView.findViewById(R.id.tvWMFWordExamS);
         tvWOrdExp = rootView.findViewById(R.id.tvWMFExp);
 
-
-
-//        String messageTvWordOF = getArguments().getString("WordOriginalForm");
-//        String messageTvWordES = getArguments().getString("WordsExampleSentece");
-//        String messageTvWOrdExp = getArguments().getString("wordsExplanation");
-//        tvWordOF.setText(messageTvWordOF);
-//        tvWordES.setText(messageTvWordES);
-//        tvWOrdExp.setText(messageTvWOrdExp);
 
         tvWordOF.setText(myWord.getWordOriginalForm());
         tvWordES.setText(myWord.getWordExampleSentence());

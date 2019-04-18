@@ -1,7 +1,10 @@
 package dev.goodjob.wordmemorizationaid;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,8 +20,17 @@ public class DictionaryWebView extends AppCompatActivity {
         wvDicLookUp.setWebViewClient(new WebViewClient());
         wvDicLookUp.loadUrl(cambridegeDic);
 
-//        theEconomistPage.getSettings().setJavaScriptEnabled(false);
-//        theEconomistPage.setWebViewClient(new WebViewClient());
+
+        final FloatingActionButton fabAddWords = findViewById(R.id.fabAddWords);
+        fabAddWords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startService(new Intent(DictionaryWebView.this, FloatingButtonService.class));
+
+//                    finish();
+            }
+        });
+
 
     }
 }
